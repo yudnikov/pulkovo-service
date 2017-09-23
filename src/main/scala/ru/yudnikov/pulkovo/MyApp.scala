@@ -5,6 +5,7 @@ import org.json4s.jackson.{JsonMethods, Serialization}
 import ru.yudnikov.pulkovo.rows.{CompleteRow, NonCompleteRow, Row}
 
 import scala.annotation.tailrec
+import scala.collection.mutable
 import scala.io.Source
 
 object MyApp extends App {
@@ -40,9 +41,9 @@ object MyApp extends App {
   def splitVectors(vectors: List[Vector[Boolean]]): (List[CompleteRow], List[NonCompleteRow]) = {
     val resTuple = vectors collect {
       case v if isComplete(v) =>
-        CompleteRow()
+        CompleteRow(isRoot = true)
       case v if !isComplete(v) =>
-        NonCompleteRow(v)
+        NonCompleteRow(v, isRoot = true)
     } partition {
       _.isInstanceOf[CompleteRow]
     }
@@ -85,20 +86,39 @@ object MyApp extends App {
     vt._1 && vt._2.exists(bb => !bb._1 & !bb._2)
   }
 
+  def merge(to: List[CompleteRow], from: List[NonCompleteRow]): (List[CompleteRow], List[NonCompleteRow]) = {
+    var completeKeys = mutable.ArrayBuffer[CompleteRow]()
+    for (key <- to) {
+      var current = key
+      for (f <- from) {
+        current = current.merge(f).asInstanceOf[CompleteRow]
+      }
+      completeKeys += current
+    }
+    val heap = completeKeys.flatMap(_.flatten).map(_.vector)
+    completeKeys.toList -> from.filter(k => !heap.contains(k.vector))
+  }
+
   val bool = in.map(row => (row.map(_.isDefined), row))
   val groups = bool.groupBy(_._1)
   val keys = groups.keys.toList
 
   val s0 = splitVectors(keys)
 
+  @tailrec
   def solve(completeRows: List[CompleteRow], nonCompleteRows: List[NonCompleteRow], prevNonComplete: Int = 0): Unit = {
-    val completeRoots = completeRows.flatMap(_.roots)
     val currentSplit = splitRows(nonCompleteRows)
-    val currentNonCompleteRoots = currentSplit._2.flatMap(_.roots).distinct.diff(completeRoots)
-    if (currentNonCompleteRoots.isEmpty || currentNonCompleteRoots.length == prevNonComplete)
-      println(s"solved!")
-    else
-      solve(completeRows.union(currentSplit._1).distinct, nonCompleteRows.union(currentSplit._2).distinct, currentNonCompleteRoots.length)
+    val currentSplitMerged = merge(currentSplit._1, currentSplit._2)
+    if (completeRows.length == currentSplit._1.length && prevNonComplete == currentSplit._2.length) {
+      println(s"finished")
+      //currentSplitMerged._1.foreach(_.print())
+      println(s"roots: \n" +
+        s"${completeRows.flatMap(_.roots).distinct.mkString("\n")}")
+      /*val x = merge(List(completeRows.head), completeRows.tail.asInstanceOf[List[NonCompleteRow]])
+      x._1.head.print()*/
+    } else {
+      solve(completeRows.union(currentSplitMerged._1).distinct, nonCompleteRows.union(currentSplitMerged._2).distinct, currentSplit._2.length)
+    }
   }
 
   solve(s0._1, s0._2)

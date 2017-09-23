@@ -4,8 +4,9 @@ trait Row {
 
   val vector: Vector[Boolean]
   val children: List[Row]
+  val isRoot: Boolean
 
-  lazy val roots: Set[Row] = this.filter(_.children.isEmpty).toSet
+  lazy val roots: Set[Row] = this.filter(_.isRoot).toSet
 
   def withChildren(children: List[Row]): Row
 
@@ -24,14 +25,17 @@ trait Row {
   }
 
   def merge(row: Row): Row = {
-    if (vector == row.vector)
+    if (!isRoot && vector == row.vector && children != row.children)
       withChildren(children.union(row.children))
     else
       withChildren(children.map(_.merge(row)))
   }
 
   def print(level: Int = 0): Unit = {
-    println("\t" * level + vector)
+    println("\t" * level + vector.map {
+      case true => "x"
+      case false => "_"
+    }.mkString(" "))
     children.foreach(_.print(level + 1))
   }
 }

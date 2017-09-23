@@ -1,6 +1,6 @@
 package ru.yudnikov.pulkovo.rows
 
-case class CompleteRow(children: List[Row] = Nil)(implicit length: Int) extends Row {
+case class CompleteRow(children: List[Row] = Nil, isRoot: Boolean = false)(implicit length: Int) extends Row {
 
   override val vector: Vector[Boolean] = Vector.fill(length)(true)
 

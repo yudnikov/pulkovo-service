@@ -6,33 +6,21 @@
     null
   ],
   [
-    "b1",
-    "b2",
+    null,
+    "a2",
     null,
     null
-  ],
-  [
-    null,
-    "b2",
-    null,
-    null
-  ],
-  [
-    null,
-    null,
-    "c3",
-    null
-  ],
-  [
-    null,
-    null,
-    null,
-    "c3"
   ],
   [
     null,
     null,
     "e3",
+    null
+  ],
+  [
+    null,
+    null,
+    null,
     "e4"
   ]
 ]
