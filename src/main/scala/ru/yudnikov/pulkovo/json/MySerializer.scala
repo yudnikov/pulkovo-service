@@ -1,7 +1,7 @@
-package ru.yudnikov.pulkovo
+package ru.yudnikov.pulkovo.json
 
-import org.json4s.{CustomSerializer, JValue}
 import org.json4s.JsonAST.{JArray, JNull, JString}
+import org.json4s.{CustomSerializer, JValue}
 
 object MySerializer extends CustomSerializer[List[Vector[Option[String]]]](_ => ( {
   case JArray(rows: List[JArray]) => {

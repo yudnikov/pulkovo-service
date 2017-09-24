@@ -1,10 +1,11 @@
-package ru.yudnikov.pulkovo.rows
+package ru.yudnikov.trash.rows
 
 trait Row {
 
-  val vector: Vector[Boolean]
+  val value: Vector[Boolean]
   val children: List[Row]
   val isRoot: Boolean
+  val isComplete: Boolean
 
   lazy val roots: Set[Row] = this.filter(_.isRoot).toSet
 
@@ -25,26 +26,32 @@ trait Row {
   }
 
   def merge(row: Row): Row = {
-    if (!isRoot && vector == row.vector && children != row.children)
-      withChildren(children.union(row.children))
-    else
+    if ((!isRoot && !isComplete || isRoot && isComplete)
+        && value == row.value
+        && children != row.children) {
+      val c = children.union(row.children)
+      withChildren(c)
+    } else
       withChildren(children.map(_.merge(row)))
   }
 
   def print(level: Int = 0): Unit = {
-    println("\t" * level + vector.map {
+    println("\t" * level + value.map {
       case true => "x"
       case false => "_"
     }.mkString(" "))
     children.foreach(_.print(level + 1))
   }
+
+  //override def toString = print()
+
 }
 
 object Row {
 
   // some implicit magic...
-  implicit def toVector(row: Row): Vector[Boolean] = row.vector
+  implicit def toVector(row: Row): Vector[Boolean] = row.value
 
-  implicit def toTuple(t: (Row, Row)): (Vector[Boolean], Vector[Boolean]) = t._1.vector -> t._2.vector
+  implicit def toTuple(t: (Row, Row)): (Vector[Boolean], Vector[Boolean]) = t._1.value -> t._2.value
 
 }

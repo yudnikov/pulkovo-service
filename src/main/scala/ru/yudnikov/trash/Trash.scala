@@ -1,6 +1,7 @@
+package ru.yudnikov.trash
+
 import scala.annotation.tailrec
 import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object Trash extends App {
 
