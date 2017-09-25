@@ -22,14 +22,18 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.12.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.12:1.0.6:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.json4s:json4s-scalap_2.12:3.5.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.json4s:json4s-jackson_2.12:3.5.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.json4s:json4s-core_2.12:3.5.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.json4s:json4s-ast_2.12:3.5.3:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-databind:2.8.4:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-core:2.8.4:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-annotations:2.8.0:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scalatest:scalatest_2.12:3.0.4:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scalactic:scalactic_2.12:3.0.4:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang.modules:scala-parser-combinators_2.12:1.0.4:jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang:scala-reflect:2.12.3:jar" level="project" />
     <orderEntry type="library" name="SBT: com.thoughtworks.paranamer:paranamer:2.8:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-annotations:2.8.0:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-core:2.8.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.fasterxml.jackson.core:jackson-databind:2.8.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.json4s:json4s-ast_2.12:3.5.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.json4s:json4s-core_2.12:3.5.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.json4s:json4s-jackson_2.12:3.5.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.json4s:json4s-scalap_2.12:3.5.3:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang.modules:scala-xml_2.12:1.0.6:jar" level="project" />
   </component>
 </module>

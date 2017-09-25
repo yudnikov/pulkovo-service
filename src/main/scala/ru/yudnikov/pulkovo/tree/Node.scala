@@ -70,8 +70,6 @@ trait Node {
         Node.cache.put(key, res)
         res
     }
-
-
   }
 
   /*def combineFuture(grouped: ParMap[Int, ParSeq[Vector[Option[String]]]],
@@ -121,14 +119,14 @@ trait Node {
       this :: Nil
   }
 
-  def merge(row: Node): Node = {
+  def merge(node: Node): Node = {
     if ((!isRoot && !isComplete || isRoot && isComplete)
-      && value == row.value
-      && children != row.children) {
-      val c = children.union(row.children)
+      && value == node.value
+      && children != node.children) {
+      val c = children.union(node.children)
       withChildren(c)
     } else
-      withChildren(children.map(_.merge(row)))
+      withChildren(children.map(_.merge(node)))
   }
 
   def print(level: Int = 0): Unit = {
@@ -151,16 +149,17 @@ object Node {
   }
 
   def merge[T1 <: Node, T2 <: Node](to: List[T1], from: List[T2]): (List[T1], List[T2]) = {
-    var completeKeys = mutable.ArrayBuffer[T1]()
+    var buffer = mutable.ArrayBuffer[T1]()
     for (key <- to) {
       var current = key
       for (f <- from) {
         current = current.merge(f).asInstanceOf[T1]
       }
-      completeKeys += current
+      buffer += current
     }
-    val heap = completeKeys.toList.par.flatMap(_.flatten).map(_.value).seq
-    completeKeys.toList -> from.filter(k => !heap.contains(k.value))
+    /*val heap = buffer.toList.par.flatMap(_.flatten).map(_.value).seq
+    buffer.toList -> from.filter(k => !heap.contains(k.value))*/
+    buffer.toList.distinct -> from.distinct
   }
 
 }
